@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
 export function CategoryRadioButton({ id, slug, text, ...props }: Readonly<Props>) {
   return (

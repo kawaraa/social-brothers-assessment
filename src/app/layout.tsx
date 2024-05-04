@@ -16,7 +16,7 @@ let navItems: MenuItems = [];
 let footerItems: MenuItems = [];
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  if (!navItems && !footerItems) {
+  if (!navItems[0] && !footerItems[0]) {
     const { Navigations } = await PreprSdk.Navigation();
     Navigations &&
       Navigations.items.forEach((item) =>
