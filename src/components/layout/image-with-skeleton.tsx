@@ -4,7 +4,7 @@ import Image, { ImageProps } from 'next/image';
 
 import { skeletonCls } from './tailwindcss-class';
 
-export function ImageWithSkeleton(props: ImageProps) {
+export function ImageWithSkeleton(props: Readonly<ImageProps>) {
   return (
     <Suspense fallback={<div className={`aspect-video w-full ${skeletonCls}`}></div>}>
       <Image {...props} />
@@ -12,7 +12,7 @@ export function ImageWithSkeleton(props: ImageProps) {
   );
 }
 
-export function VideoWithSkeleton({ src, type, ...props }) {
+export function VideoWithSkeleton({ src, type, ...props }: Readonly<VideoProps>) {
   return (
     <Suspense fallback={<div className={`aspect-video w-full ${skeletonCls}`}></div>}>
       <video {...props}>
@@ -21,4 +21,11 @@ export function VideoWithSkeleton({ src, type, ...props }) {
       </video>
     </Suspense>
   );
+}
+interface VideoProps {
+  src: string;
+  type: string;
+  controls: boolean;
+  width: string;
+  height: string;
 }

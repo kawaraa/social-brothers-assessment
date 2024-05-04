@@ -1,6 +1,11 @@
+
 import { IoChevronBackOutline, IoChevronForward } from 'react-icons/io5';
 
-export default function PaginationButtons({ url, totalPages = 1, currentPage = 1 }) {
+export default function PaginationButtons({
+  url,
+  totalPages = 1,
+  currentPage = 1,
+}: Readonly<PaginationProps>) {
   const buttons = [];
   const limit = 3;
   const start = totalPages <= currentPage + limit ? totalPages - limit : currentPage;
@@ -51,7 +56,7 @@ export default function PaginationButtons({ url, totalPages = 1, currentPage = 1
   );
 }
 
-function PageBtn({ href, active, children }) {
+function PageBtn({ href, active, children }: Readonly<PageBtnProps>) {
   return (
     <a
       href={href}
@@ -60,11 +65,27 @@ function PageBtn({ href, active, children }) {
     </a>
   );
 }
-function MoveBtn({ href, title, children }) {
+function MoveBtn({ href, title, children }: Readonly<MoveBtnProps>) {
   return (
     <a href={href} className="flex items-center px-2 py-1">
       <span className="sr-only">{title}</span>
       {children}
     </a>
   );
+}
+
+interface PaginationProps {
+  url: string;
+  totalPages: number;
+  currentPage: number;
+}
+interface PageBtnProps {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}
+interface MoveBtnProps {
+  href: string;
+  title: string;
+  children: React.ReactNode;
 }

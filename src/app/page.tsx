@@ -10,9 +10,9 @@ export default async function Home() {
   return (
     <>
       <PageHeader
-        imageUrl={Page.page_header.image.url}
-        title={Page.page_header.title}
-        text={Page.page_header.text}
+        imageUrl={Page?.page_header?.image.url || ''}
+        title={Page?.page_header?.title}
+        text={Page?.page_header?.text}
         cls="h-[90vh]"
       />
 
@@ -41,5 +41,5 @@ export default async function Home() {
 
 export async function generateMetadata() {
   const { Page } = await PreprSdk.Page({ slug: '/' });
-  return { title: Page.title };
+  return { title: Page?.title || '' };
 }

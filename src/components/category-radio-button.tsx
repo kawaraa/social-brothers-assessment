@@ -1,4 +1,6 @@
-export function CategoryRadioButton({ id, slug, text, ...props }) {
+import { InputHTMLAttributes } from 'react';
+
+export function CategoryRadioButton({ id, slug, text, ...props }: Readonly<Props>) {
   return (
     <span className="relative flex overflow-hidden rounded">
       <input
@@ -16,4 +18,10 @@ export function CategoryRadioButton({ id, slug, text, ...props }) {
       </label>
     </span>
   );
+}
+
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+  id: string;
+  slug: string;
+  text: string;
 }

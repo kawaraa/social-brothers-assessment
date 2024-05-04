@@ -37,7 +37,13 @@ query Blog($blogId: String, $slug: String) {
       }
     }
     related_blogs {
+      _id
+      _slug
       title
+      _created_on
+      categories {
+        body
+      }
       banner_image {
         width
         url

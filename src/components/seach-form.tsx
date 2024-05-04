@@ -2,16 +2,20 @@
 
 import { useRouter } from 'next/navigation';
 
+import { Category } from '@/app/blog/page';
+
 import { CategoryRadioButton } from './category-radio-button';
 import { pageContainerCls } from './layout/tailwindcss-class';
 
-export default function SearchForm({ categories, category, search = '' }) {
+export default function SearchForm({ categories, category, search = '' }: Readonly<Props>) {
   const router = useRouter();
 
-  const updateUrl = (c, s) => router.push(`/blog?category=${c}&search=${s}`);
-  const handleSubmit = async (e) => {
+  const updateUrl = (c: string, s: string) => router.push(`/blog?category=${c}&search=${s}`);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateUrl(e.target.category.value, e.target.search.value);
+    const { category, search } = e.target as HTMLFormElement;
+    updateUrl(category.value, search.value);
   };
 
   return (
@@ -33,7 +37,7 @@ export default function SearchForm({ categories, category, search = '' }) {
 
       <div className="flex items-center gap-2">
         <CategoryRadioButton
-          onChange={(e) => updateUrl(e.target.value, search)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateUrl(e.target.value, search)}
           checked={category == ''}
           id={'some-id-for-all-blog'}
           slug=""
@@ -42,7 +46,9 @@ export default function SearchForm({ categories, category, search = '' }) {
         {categories.map(({ _id, slug, body }) => {
           return (
             <CategoryRadioButton
-              onChange={(e) => updateUrl(e.target.value, search)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                updateUrl(e.target.value, search)
+              }
               checked={category == slug}
               id={_id}
               slug={slug}
@@ -54,4 +60,10 @@ export default function SearchForm({ categories, category, search = '' }) {
       </div>
     </form>
   );
+}
+
+interface Props {
+  categories: Category[];
+  category: string;
+  search: string;
 }

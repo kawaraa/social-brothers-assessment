@@ -6,19 +6,22 @@ import NavigationBar from '@/components/layout/navigation-bar';
 import './globals.css';
 
 import { PreprSdk } from '@/server/prepr';
+import { PreprNavigationQuery_Navigations_Navigations_items_Navigation_items_MenuItem } from '@/server/prepr/generated/preprAPI.schema';
 
 import getMetadata from './metadata';
 
 const inter = Inter({ subsets: ['latin'] });
 
-let navItems = null;
-let footerItems = null;
+let navItems: MenuItems = [];
+let footerItems: MenuItems = [];
+
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   if (!navItems && !footerItems) {
     const { Navigations } = await PreprSdk.Navigation();
-    Navigations.items.forEach((item) =>
-      item?.title === 'Header' ? (navItems = item.items) : (footerItems = item.items),
-    );
+    Navigations &&
+      Navigations.items.forEach((item) =>
+        item?.title === 'Header' ? (navItems = item.items) : (footerItems = item.items),
+      );
   }
 
   return (
@@ -39,3 +42,5 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
 export function generateMetadata() {
   return getMetadata();
 }
+
+type MenuItems = PreprNavigationQuery_Navigations_Navigations_items_Navigation_items_MenuItem[];

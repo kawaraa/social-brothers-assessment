@@ -5,7 +5,7 @@ import PaginationButtons from '@/components/pagination';
 import SearchForm from '@/components/seach-form';
 import { PreprSdk } from '@/server/prepr';
 
-export default async function Blogs({ params, searchParams }) {
+export default async function Blogs({ searchParams }: Readonly<Props>) {
   const { Page } = await PreprSdk.Page({ slug: 'blog' });
   const items = (await PreprSdk.Categories()).Blogs?.items;
   const categories = normalizeCategories(items || []);
@@ -14,7 +14,7 @@ export default async function Blogs({ params, searchParams }) {
     limit: 9,
     // sort: 'created_on_DESC',
     where: {
-      categories_any: !searchParams.category ? null : [searchParams.category],
+      categories_any: !searchParams.category ? [] : [searchParams.category],
       _search: searchParams.search,
     },
   });
@@ -22,8 +22,8 @@ export default async function Blogs({ params, searchParams }) {
   return (
     <>
       <PageHeader
-        imageUrl={Page.page_header.image.url}
-        title={Page.page_header.title}
+        imageUrl={Page?.page_header?.image.url || ''}
+        title={Page?.page_header?.title || ''}
         cls="h-[30vh] md:h-[300px]"
         imgCls="md:!top-[-30%] !h-[initial]"
         overlayCls="bg-[rgba(0,0,0,0.1)]"
@@ -39,7 +39,7 @@ export default async function Blogs({ params, searchParams }) {
 
       <main
         className={pageContainerCls + ' flex min-h-screen flex-col items-center justify-between '}>
-        {!Blogs.items || !Blogs.items[0] ? (
+        {!Blogs?.items || !Blogs.items[0] ? (
           <p>No blog posts found</p>
         ) : (
           <ul className="flex flex-col flex-wrap  gap-[31px] md:flex-row">
@@ -55,7 +55,7 @@ export default async function Blogs({ params, searchParams }) {
       <PaginationButtons
         url={`blog?category=${searchParams.category || ''}&search=${searchParams.search || ''}&page=`}
         currentPage={+searchParams.page || 1}
-        totalPages={Blogs.total}
+        totalPages={Blogs?.total || 1}
       />
     </>
   );
@@ -63,12 +63,12 @@ export default async function Blogs({ params, searchParams }) {
 
 export async function generateMetadata() {
   const { Page } = await PreprSdk.Page({ slug: 'blog' });
-  return { title: Page.title };
+  return { title: Page?.title || '' };
 }
 
-function normalizeCategories(data = []) {
+function normalizeCategories(data: any[] = []): Category[] {
   const set = new Set();
-  const categories = [];
+  const categories: Category[] = [];
   data.forEach((item) => {
     if (!set.has(item.categories[0]?.slug)) {
       set.add(item.categories[0]?.slug);
@@ -76,4 +76,14 @@ function normalizeCategories(data = []) {
     }
   });
   return categories;
+}
+
+export interface Category {
+  _id: string;
+  slug: string;
+  body: string;
+}
+
+interface Props {
+  searchParams: { category: string; search: string; page: number | string };
 }

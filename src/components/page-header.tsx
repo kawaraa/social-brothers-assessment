@@ -9,15 +9,7 @@ export default async function PageHeader({
   imgCls = '',
   overlayCls = 'bg-[rgba(0,0,0,0.54)]',
   ...props
-}: Readonly<{
-  imageUrl: string;
-  alt?: string;
-  title?: string;
-  text?: string;
-  cls?: string;
-  imgCls?: string;
-  overlayCls?: string;
-}>) {
+}: Readonly<Props>) {
   return (
     <header
       className={'relative flex items-center justify-center overflow-hidden ' + cls}
@@ -25,7 +17,7 @@ export default async function PageHeader({
       {/* bg-[url(/home-page-intro.png)] */}
       <ImageWithSkeleton
         src={imageUrl}
-        alt={alt || title}
+        alt={alt || title || ''}
         fill={true}
         priority
         className={`absolute z-[-1] grayscale ${imgCls}`}
@@ -37,4 +29,14 @@ export default async function PageHeader({
       </div>
     </header>
   );
+}
+
+interface Props {
+  imageUrl: string;
+  alt?: string;
+  title?: string;
+  text?: string;
+  cls?: string;
+  imgCls?: string;
+  overlayCls?: string;
 }
