@@ -1,0 +1,11 @@
+query Categories {
+  Blogs {
+    items {
+      categories {
+        _id
+        body
+        slug
+      }
+    }
+  }
+}

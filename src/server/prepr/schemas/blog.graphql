@@ -1,0 +1,55 @@
+query Blog($blogId: String, $slug: String) {
+  Blog(id: $blogId, slug: $slug) {
+    title
+    categories {
+      body
+    }
+    banner_image {
+      width
+      url
+      height
+    }
+    content {
+      ... on Text {
+        _id
+        body
+        format
+        html
+        text
+      }
+      ... on Assets {
+        items {
+          width
+          url
+          name
+          height
+          _type
+        }
+      }
+      ... on PageHeader {
+        image {
+          url
+          width
+          height
+        }
+        text
+        title
+      }
+    }
+    related_blogs {
+      title
+      banner_image {
+        width
+        url
+        name
+        height
+        description
+      }
+      content {
+        ... on Text {
+          text
+        }
+      }
+    }
+  }
+}

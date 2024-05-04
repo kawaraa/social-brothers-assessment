@@ -1,0 +1,13 @@
+query Navigation {
+  Navigations {
+    items {
+      items {
+        title
+        link_to_page {
+          _slug
+        }
+      }
+      title
+    }
+  }
+}

@@ -1,0 +1,15 @@
+query Page($slug: String) {
+  Page(slug: $slug) {
+    title
+    _slug
+    page_header {
+      title
+      image {
+        url
+        description
+      }
+      text
+    }
+    html
+  }
+}
